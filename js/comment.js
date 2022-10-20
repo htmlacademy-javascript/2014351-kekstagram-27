@@ -1,4 +1,4 @@
-import {getRandomInteger} from './utils.js';
+import {createRandomIdFromRangeGenerator, getRandomInteger} from './utils.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -16,15 +16,14 @@ const NAMES = [
   'Тони',
 ];
 
-let idCounter = 1;
-
 function generateCommentsArray(max) {
-  return Array.from({length: getRandomInteger(1, max)}, () => generateComment());
+  const generateRandomId = createRandomIdFromRangeGenerator(1, max * 10);
+  return Array.from({length: getRandomInteger(1, max)}, () => generateComment(generateRandomId()));
 }
 
-function generateComment() {
+function generateComment(id) {
   return {
-    id: idCounter++,
+    id: id,
     avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: generateMessage(getRandomInteger(1, 2)),
     name: NAMES[getRandomInteger(0, NAMES.length - 1)],

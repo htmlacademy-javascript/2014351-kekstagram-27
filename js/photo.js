@@ -1,4 +1,4 @@
-import {getRandomInteger} from './utils.js';
+import {createIdGenerator, getRandomInteger} from './utils.js';
 import {generateCommentsArray} from './comment.js';
 
 const ADJECTIVES = [
@@ -20,7 +20,8 @@ const NOUNS = [
 ];
 
 function generatePhotosArray(count) {
-  return Array.from({length: count}, (el, index) => generatePhoto(index + 1));
+  const generateId = createIdGenerator();
+  return Array.from({length: count}, () => generatePhoto(generateId()));
 }
 
 function generatePhoto(id) {

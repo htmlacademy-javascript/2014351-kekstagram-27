@@ -1,3 +1,1 @@
-import {generatePhotosArray} from './photo.js';
-
-generatePhotosArray(25);
+import './render.js';
