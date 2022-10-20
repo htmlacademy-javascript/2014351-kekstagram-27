@@ -1,10 +1,12 @@
 import {generatePhotosArray} from './photo.js';
 
+const PHOTOS_COUNT = 25;
+
 const template = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const photosArray = generatePhotosArray(25);
+const photosArray = generatePhotosArray(PHOTOS_COUNT);
 
 const photosListFragment = document.createDocumentFragment();
 

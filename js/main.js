@@ -1,1 +1,1 @@
-import './render.js';
+import './render-photo-list.js';
