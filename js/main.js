@@ -1,1 +1,5 @@
-import './render-photo-list.js';
+import {renderPhotoList} from './render-photo-list.js';
+import {closeModal} from './modal-close.js';
+
+renderPhotoList();
+closeModal();
