@@ -167,7 +167,7 @@ main {
   line-height: auto;
 
   cursor: pointer;
-}
+F}
 
 .img-filters__radio:focus + .img-filters__label {
   outline: auto 5px highlight;
@@ -1407,4 +1407,25 @@ main {
 
 .hidden {
   display: none;
+}
+
+/* стили ошибки при валидации */
+
+.img-upload__field-wrapper--invalid input,
+.img-upload__field-wrapper--invalid textarea{
+  outline: 2px solid red;
+}
+
+.img-upload__field-wrapper--invalid {
+  position: relative;
+}
+
+.text__error {
+  position: absolute;
+  background-color: grey;
+  right: 0;
+  top: 0;
+  width: 30%;
+  font-size: 10px;
+
 }
