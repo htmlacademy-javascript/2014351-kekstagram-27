@@ -2,26 +2,34 @@ import {generatePhotosArray} from './photo.js';
 import {renderDetail} from './render-photo-detail.js';
 import {PHOTOS_COUNT} from './config.js';
 
+const generatedPhotosArray = generatePhotosArray(PHOTOS_COUNT);
+
 const renderPhotoList = () => {
   const template = document.querySelector('#picture')
     .content
     .querySelector('.picture');
 
-  const photosArray = generatePhotosArray(PHOTOS_COUNT);
-
   const photosListFragment = document.createDocumentFragment();
 
-  photosArray.forEach((photo) => {
+  generatedPhotosArray.forEach((photo) => {
     const photoItem = template.cloneNode(true);
-    photoItem.addEventListener('click', () => {
-      renderDetail(photo);
-    });
     photoItem.querySelector('.picture__img').src = photo.url;
-    photoItem.querySelector('.picture__comments').src = photo.comments.length;
-    photoItem.querySelector('.picture__likes').src = photo.likes;
+    photoItem.querySelector('.picture__comments').textContent = photo.comments.length.toString();
+    photoItem.querySelector('.picture__likes').textContent = photo.likes.toString();
+    photoItem.dataset.id = photo.id;
     photosListFragment.appendChild(photoItem);
   });
   document.querySelector('.pictures').appendChild(photosListFragment);
+
+  document.querySelector('.pictures').addEventListener('click', (evt) => {
+    if (evt.target.tagName === 'IMG') {
+      const photoId = Number(evt.target.closest('a.picture').dataset.id);
+      const photo = generatedPhotosArray.find((element) => photoId === element.id);
+      renderDetail(photo);
+    }
+  });
 };
 
-export {renderPhotoList};
+export {
+  renderPhotoList,
+};

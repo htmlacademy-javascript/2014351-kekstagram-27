@@ -1,15 +1,19 @@
+import {clearCommentsList, onCommentsLoadButtonClicked, renderComments} from './render-comments.js';
+
 const bigPicture = document.querySelector('.big-picture');
-const template = document.querySelector('#comment')
-  .content
-  .querySelector('.social__comment');
+const modalCloseButton = bigPicture.querySelector('.big-picture__cancel');
+const commentsLoadButton = bigPicture.querySelector('.comments-loader');
 
-const commentsList = bigPicture.querySelector('.social__comments');
-const commentsListFragment = document.createDocumentFragment();
+const toggleBigPicture = () => {
+  bigPicture.classList.toggle('hidden');
+  document.body.classList.toggle('modal-open');
+};
 
-const clearCommentsList = () => {
-  const commentsCollection = commentsList.children;
-  for (let i = commentsCollection.length - 1; i >= 0; i--) {
-    commentsCollection[i].remove();
+const onEscapeDown = (evt) => {
+  if (evt.key === 'Escape') {
+    toggleBigPicture();
+    document.removeEventListener('keydown', onEscapeDown);
+    commentsLoadButton.removeEventListener('click', onCommentsLoadButtonClicked);
   }
 };
 
@@ -20,27 +24,24 @@ const renderDetail = (photo) => {
   bigPicture.querySelector('.social__caption').textContent = photo.description;
 
   clearCommentsList();
-  photo.comments.forEach((comment) => {
-    const commentItemTemplate = template.cloneNode(true);
-    const img = commentItemTemplate.querySelector('.social__picture');
-    img.src = comment.avatar;
-    img.alt = comment.name;
-    commentItemTemplate.querySelector('.social__text').textContent = comment.message;
-    commentsListFragment.appendChild(commentItemTemplate);
+
+  renderComments(photo.comments);
+
+  toggleBigPicture();
+
+  document.addEventListener('keydown', onEscapeDown);
+};
+
+const initCloseBigPicture = () => {
+  modalCloseButton.addEventListener('click', () => {
+    toggleBigPicture();
+    document.removeEventListener('keydown', onEscapeDown);
+    commentsLoadButton.removeEventListener('click', onCommentsLoadButtonClicked);
   });
-  commentsList.appendChild(commentsListFragment);
-
-  bigPicture.querySelector('.social__comment-count').classList.add('hidden');
-  bigPicture.querySelector('.comments-loader').classList.add('hidden');
-  bigPicture.classList.remove('hidden');
-
-  if (!document.body.classList.contains('modal-open')) {
-    document.body.classList.add('modal-open');
-  }
 };
 
 export {
   renderDetail,
-  bigPicture
+  initCloseBigPicture,
 };
 
