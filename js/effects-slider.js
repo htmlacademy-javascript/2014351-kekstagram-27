@@ -52,6 +52,14 @@ const onEffectChange = (evt) => {
       });
       break;
     default:
+      effectsSlider.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
       effectsSlider.classList.add('hidden');
   }
 };
@@ -88,9 +96,9 @@ const initSlider = () => {
         break;
       case 'heat':
         filter = 'brightness';
-        break;
     }
-    imgPreview.style = `filter: ${filter}(${sliderValue.value}${unit})`;
+
+    imgPreview.style = filter.length ? `filter: ${filter}(${sliderValue.value}${unit})` : '';
   });
 
   effectsList.addEventListener('change', onEffectChange);
