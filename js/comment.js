@@ -33,9 +33,9 @@ const generateComment = (id) => ({
 });
 
 
-const generateCommentsArray = (max) => {
+const generateCommentsArray = (min, max) => {
   const generateRandomId = createRandomIdFromRangeGenerator(1, max * 10);
-  return Array.from({length: getRandomInteger(1, max)}, () => generateComment(generateRandomId()));
+  return Array.from({length: getRandomInteger(min, max)}, () => generateComment(generateRandomId()));
 };
 
 export {

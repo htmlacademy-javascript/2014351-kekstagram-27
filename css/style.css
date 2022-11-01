@@ -167,7 +167,7 @@ main {
   line-height: auto;
 
   cursor: pointer;
-F}
+}
 
 .img-filters__radio:focus + .img-filters__label {
   outline: auto 5px highlight;

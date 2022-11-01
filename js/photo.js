@@ -1,6 +1,6 @@
 import {createIdGenerator, getRandomInteger} from './utils.js';
 import {generateCommentsArray} from './comment.js';
-import {LIKES_RANGE_FROM, LIKES_RANGE_TO} from './config.js';
+import {COMMENTS_RANGE_FROM, COMMENTS_RANGE_TO, LIKES_RANGE_FROM, LIKES_RANGE_TO} from './config.js';
 
 const ADJECTIVES = [
   'beautiful',
@@ -28,7 +28,7 @@ const generatePhoto = (id) => ({
   url:`photos/${id}.jpg`,
   description: generateDescription(ADJECTIVES, NOUNS),
   likes: getRandomInteger(LIKES_RANGE_FROM, LIKES_RANGE_TO),
-  comments: generateCommentsArray(3),
+  comments: generateCommentsArray(COMMENTS_RANGE_FROM, COMMENTS_RANGE_TO),
 });
 
 
