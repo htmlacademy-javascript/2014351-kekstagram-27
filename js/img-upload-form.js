@@ -1,5 +1,6 @@
-import {checkArrayHasNoDuplicates, validateMaxStringLength} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
+import {MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
+import {destroySlider, initSlider} from './effects-slider.js';
+import {pristine} from './form-validation.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('#upload-file');
@@ -9,14 +10,6 @@ const uploadFormButtonClose = uploadForm.querySelector('.img-upload__cancel');
 const [scaleButtonSmaller, scaleControl, scaleButtonBigger] = uploadForm.querySelector('.img-upload__scale').children;
 const imgPreview = uploadForm.querySelector('.img-upload__preview').children[0];
 const effectsList = uploadForm.querySelector('.effects__list');
-
-const pristine = new Pristine(uploadForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field-wrapper--invalid',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextClass: 'text__error',
-  errorTextTag: 'p',
-});
 
 const toggleUploadForm = () => {
   uploadForm.querySelector('.img-upload__overlay').classList.toggle('hidden');
@@ -51,6 +44,7 @@ const onEscapeDown = (evt) => {
   if (evt.key === 'Escape' && hashtagInput !== document.activeElement && commentInput !== document.activeElement) {
     toggleUploadForm();
     clearUploadForm();
+    destroySlider();
     document.removeEventListener('keydown', onEscapeDown);
   }
 };
@@ -67,10 +61,12 @@ const initUploadForm = () => {
     toggleUploadForm();
     clearUploadForm();
     document.removeEventListener('keydown', onEscapeDown);
+    destroySlider();
   });
 
   uploadInput.addEventListener('change', () => {
     toggleUploadForm();
+    initSlider();
     document.addEventListener('keydown', onEscapeDown);
   });
 
@@ -89,61 +85,5 @@ const initUploadForm = () => {
     }
   });
 };
-
-const validateHashtagsSymbols = (value) => {
-  const regexp = /^#[a-zA-Z\d\u0401\u0451\u0410-\u044f]+$/;
-  const hashtagsArray = value.trim().split(' ');
-  if (value === '') {
-    return true;
-  }
-  return hashtagsArray.every((hashtag) => regexp.test(hashtag));
-};
-
-const validateHashtagsLength = (value) => {
-  const hashtagsArray = value.trim().split(' ');
-  return hashtagsArray.every((hashtag) => validateMaxStringLength(hashtag, MAX_HASHTAG_LENGTH));
-};
-
-const validateHashtagsNoDuplicates = (value) => {
-  const hashtagsArray = value.trim().split(' ');
-  return checkArrayHasNoDuplicates(hashtagsArray);
-};
-
-const validateHashtagsCount = (value) => {
-  const hashtagsArray = value.trim().split(' ');
-  return hashtagsArray.length <= MAX_HASHTAG_COUNT;
-};
-
-const validateComment = (comment) => validateMaxStringLength(comment, MAX_COMMENT_LENGTH);
-
-pristine.addValidator(
-  hashtagInput,
-  validateHashtagsSymbols,
-  'Хэштег должен начинаться с #, состоять из букв и цифр'
-);
-
-pristine.addValidator(
-  hashtagInput,
-  validateHashtagsNoDuplicates,
-  'Хэштеги не должны повторяться!'
-);
-
-pristine.addValidator(
-  hashtagInput,
-  validateHashtagsCount,
-  `Не более ${MAX_HASHTAG_COUNT} хэштегов`
-);
-
-pristine.addValidator(
-  hashtagInput,
-  validateHashtagsLength,
-  `Длина хэштега не более ${MAX_HASHTAG_LENGTH} знаков`
-);
-
-pristine.addValidator(
-  commentInput,
-  validateComment,
-  `Не более ${MAX_COMMENT_LENGTH} символов`
-);
 
 export {initUploadForm};
