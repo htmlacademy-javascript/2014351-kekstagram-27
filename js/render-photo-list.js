@@ -1,7 +1,6 @@
 import {generatePhotosArray} from './photo.js';
 import {renderDetail} from './render-photo-detail.js';
-
-const PHOTOS_COUNT = 25;
+import {PHOTOS_COUNT} from './config.js';
 
 const renderPhotoList = () => {
   const template = document.querySelector('#picture')

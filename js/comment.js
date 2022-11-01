@@ -1,4 +1,5 @@
 import {createRandomIdFromRangeGenerator, getRandomInteger} from './utils.js';
+import {AVATAR_COUNT} from './config.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -16,27 +17,26 @@ const NAMES = [
   'Тони',
 ];
 
-function generateCommentsArray(max) {
-  const generateRandomId = createRandomIdFromRangeGenerator(1, max * 10);
-  return Array.from({length: getRandomInteger(1, max)}, () => generateComment(generateRandomId()));
-}
-
-function generateComment(id) {
-  return {
-    id: id,
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: generateMessage(getRandomInteger(1, 2)),
-    name: NAMES[getRandomInteger(0, NAMES.length - 1)],
-  };
-}
-
-function generateMessage(count) {
-  return Array.from({length: count}).reduce((message, _, index) => {
+const generateMessage = (count) =>
+  Array.from({length: count}).reduce((message, _, index) => {
     message += MESSAGES[getRandomInteger(0, MESSAGES.length - 1)];
     message += (index === count - 1) ? '' : ' ';
     return message;
   }, '');
-}
+
+
+const generateComment = (id) => ({
+  id: id,
+  avatar: `img/avatar-${getRandomInteger(1, AVATAR_COUNT)}.svg`,
+  message: generateMessage(getRandomInteger(1, 2)),
+  name: NAMES[getRandomInteger(0, NAMES.length - 1)],
+});
+
+
+const generateCommentsArray = (max) => {
+  const generateRandomId = createRandomIdFromRangeGenerator(1, max * 10);
+  return Array.from({length: getRandomInteger(1, max)}, () => generateComment(generateRandomId()));
+};
 
 export {
   generateCommentsArray
