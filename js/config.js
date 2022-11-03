@@ -18,6 +18,63 @@ const COMMENTS_RANGE_TO = 20;
 
 const COUNT_OF_LOADED_COMMENTS = 5;
 
+const EFFECTS_CONFIG = {
+  chrome: {
+    slider: {
+      range: {min: 0, max: 1},
+      start: 1,
+      step: 0.1,
+    },
+    filter: 'grayscale',
+    unit: '',
+  },
+  sepia: {
+    slider: {
+      range: {min: 0, max: 1},
+      start: 1,
+      step: 0.1,
+    },
+    filter: 'sepia',
+    unit: '',
+  },
+  marvin: {
+    slider: {
+      range: {min: 0, max: 100},
+      start: 100,
+      step: 1,
+    },
+    filter: 'invert',
+    unit: '%',
+  },
+  phobos: {
+    slider: {
+      range: {min: 0, max: 3},
+      start: 3,
+      step: 0.1,
+    },
+    filter: 'blur',
+    unit: 'px',
+  },
+  heat: {
+    slider: {
+      range: {min: 1, max: 3},
+      start: 3,
+      step: 0.1,
+    },
+    filter: 'brightness',
+    unit: '',
+  },
+  default: {
+    slider: {
+      range: {min: 0, max: 100},
+      start: 100,
+      step: 1,
+    },
+    filter: '',
+    unit: '',
+  }
+};
+
 export {
   AVATAR_COUNT,
   MAX_SCALE,
@@ -31,5 +88,6 @@ export {
   LIKES_RANGE_FROM,
   COUNT_OF_LOADED_COMMENTS,
   COMMENTS_RANGE_TO,
-  COMMENTS_RANGE_FROM
+  COMMENTS_RANGE_FROM,
+  EFFECTS_CONFIG
 };
