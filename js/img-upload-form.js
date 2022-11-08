@@ -1,9 +1,12 @@
 import {MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
 import {destroySlider, initSlider} from './effects-slider.js';
 import {pristine} from './form-validation.js';
+import {postNewPhoto} from './photos-api.js';
+import {showErrorModal, showSuccessModal} from './notifications.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('#upload-file');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const uploadFormButtonClose = uploadForm.querySelector('.img-upload__cancel');
@@ -14,6 +17,16 @@ const effectsList = uploadForm.querySelector('.effects__list');
 const toggleUploadForm = () => {
   uploadForm.querySelector('.img-upload__overlay').classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
+};
+
+const disableUploadButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикуется...';
+};
+
+const enableUploadButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
 };
 
 const changeScale = (value) => {
@@ -78,10 +91,29 @@ const initUploadForm = () => {
     changeScale(-SCALE_STEP);
   });
 
-  uploadForm.addEventListener('submit', (evt) => {
+  uploadForm.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
     const isValid = pristine.validate();
     if (!isValid) {
-      evt.preventDefault();
+      return false;
+    }
+    disableUploadButton();
+    try {
+      const response = await postNewPhoto(evt.target);
+      if (!response.ok) {
+        throw new Error('Произошла ошибка');
+      }
+
+      toggleUploadForm();
+      clearUploadForm();
+      destroySlider();
+      document.removeEventListener('keydown', onEscapeDown);
+
+      showSuccessModal();
+    } catch (err) {
+      showErrorModal();
+    } finally {
+      enableUploadButton();
     }
   });
 };
