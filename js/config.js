@@ -77,6 +77,8 @@ const EFFECTS_CONFIG = {
 
 const NOTIFICATION_TIME = 5000;
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 export {
   AVATAR_COUNT,
   MAX_SCALE,
@@ -93,4 +95,5 @@ export {
   COMMENTS_RANGE_FROM,
   EFFECTS_CONFIG,
   NOTIFICATION_TIME,
+  FILE_TYPES
 };

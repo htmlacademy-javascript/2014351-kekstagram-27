@@ -25,6 +25,7 @@ const onEffectChange = (evt) => {
     effectsSlider.noUiSlider.updateOptions(EFFECTS_CONFIG.default.slider);
     hideEffectsSlider();
   }
+  // changeScale(MAX_SCALE);
 };
 
 const initSlider = () => {
@@ -38,10 +39,10 @@ const initSlider = () => {
     if (Object.prototype.hasOwnProperty.call(EFFECTS_CONFIG, selectedEffect)) {
       const {filter, unit} = EFFECTS_CONFIG[selectedEffect];
 
-      imgPreview.style = `filter: ${filter}(${value}${unit})`;
+      imgPreview.style.filter = `${filter}(${value}${unit})`;
       sliderInput.value = value;
     } else {
-      imgPreview.style = '';
+      imgPreview.style.filter = '';
       sliderInput.value = '';
     }
   });
