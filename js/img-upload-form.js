@@ -1,4 +1,4 @@
-import {MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
+import {FILE_TYPES, MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
 import {destroySlider, initSlider} from './effects-slider.js';
 import {pristine} from './form-validation.js';
 import {postNewPhoto} from './photos-api.js';
@@ -34,7 +34,7 @@ const changeScale = (value) => {
   scale = (scale < MIN_SCALE) ? MIN_SCALE : scale;
   scale = (scale > MAX_SCALE) ? MAX_SCALE : scale;
   scaleControl.value = `${scale}%`;
-  imgPreview.style = `transform: scale(${scale / 100})`;
+  imgPreview.style.transform = `scale(${scale / 100})`;
 };
 
 const clearUploadForm = () => {
@@ -62,6 +62,17 @@ const onEscapeDown = (evt) => {
   }
 };
 
+const renderPreview = () => {
+  const file = uploadInput.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+
+  if (matches) {
+    imgPreview.src = URL.createObjectURL(file);
+  }
+};
+
 const initUploadForm = () => {
   effectsList.addEventListener('click', (evt) => {
     if (evt.target.nodeName === 'INPUT') {
@@ -78,6 +89,7 @@ const initUploadForm = () => {
   });
 
   uploadInput.addEventListener('change', () => {
+    renderPreview();
     toggleUploadForm();
     initSlider();
     document.addEventListener('keydown', onEscapeDown);
@@ -118,4 +130,7 @@ const initUploadForm = () => {
   });
 };
 
-export {initUploadForm};
+export {
+  initUploadForm,
+  changeScale
+};

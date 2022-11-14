@@ -50,19 +50,8 @@ const showErrorModal = () => {
 
 const showErrorNotify = (message) => {
   const alertContainer = document.createElement('div');
-  alertContainer.style.zIndex = '100';
-  alertContainer.style.position = 'absolute';
+  alertContainer.classList.add('alert');
 
-  alertContainer.style.top = '15px';
-  alertContainer.style.right = '15px';
-  alertContainer.style.padding = '15px 10px';
-  alertContainer.style.fontSize = '25px';
-  alertContainer.style.textAlign = 'center';
-  alertContainer.style.backgroundColor = '#fe4c4c';
-  alertContainer.style.lineHeight = 'normal';
-  alertContainer.style.borderRadius = '30px';
-  alertContainer.style.maxWidth = '25%';
-  alertContainer.style.minWidth = 'min-content';
 
   alertContainer.textContent = message;
 
