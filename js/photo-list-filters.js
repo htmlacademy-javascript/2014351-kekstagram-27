@@ -16,7 +16,7 @@ const applyFilter = (id, photosArray) => {
   let newPhotoArray = [];
   switch (id) {
     case 'filter-random':
-      newPhotoArray = createRandomIntegersArrayFromRange(0, photosArray.length, 10)
+      newPhotoArray = createRandomIntegersArrayFromRange(0, photosArray.length - 1, 10)
         .map((index) => photosArray[index]);
       break;
     case 'filter-discussed':
