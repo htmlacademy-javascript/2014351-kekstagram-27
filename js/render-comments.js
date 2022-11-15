@@ -1,44 +1,44 @@
 import {COUNT_OF_LOADED_COMMENTS} from './config.js';
 
-const template = document.querySelector('#comment')
+const commentTemplate = document.querySelector('#comment')
   .content
   .querySelector('.social__comment');
 
-const bigPicture = document.querySelector('.big-picture');
-const commentsList = bigPicture.querySelector('.social__comments');
+const bigPictureElement = document.querySelector('.big-picture');
+const commentsListElement = bigPictureElement.querySelector('.social__comments');
 const commentsListFragment = document.createDocumentFragment();
-const commentsLoadButton = bigPicture.querySelector('.comments-loader');
-const showedCommentsCounter = bigPicture.querySelector('.comments-showed');
-const commentCounter = bigPicture.querySelector('.social__comment-count');
+const commentsLoadButtonElement = bigPictureElement.querySelector('.comments-loader');
+const showedCommentsCounterElement = bigPictureElement.querySelector('.comments-showed');
+const commentCounterElement = bigPictureElement.querySelector('.social__comment-count');
 
 
 const createCommentNodeElement = (comment) => {
-  const commentNodeElement = template.cloneNode(true);
-  const img = commentNodeElement.querySelector('.social__picture');
-  img.src = comment.avatar;
-  img.alt = comment.name;
+  const commentNodeElement = commentTemplate.cloneNode(true);
+  const imgElement = commentNodeElement.querySelector('.social__picture');
+  imgElement.src = comment.avatar;
+  imgElement.alt = comment.name;
   commentNodeElement.querySelector('.social__text').textContent = comment.message;
   return commentNodeElement;
 };
 
 const showLoadMoreButton = () => {
-  commentsLoadButton.classList.remove('hidden');
+  commentsLoadButtonElement.classList.remove('hidden');
 };
 
 const hideLoadMoreButton = () => {
-  commentsLoadButton.classList.add('hidden');
+  commentsLoadButtonElement.classList.add('hidden');
 };
 
 const setCounterNumber = (number) => {
-  showedCommentsCounter.textContent = number.toString();
+  showedCommentsCounterElement.textContent = number.toString();
 };
 
 const hideCommentsCounter = () => {
-  commentCounter.classList.add('hidden');
+  commentCounterElement.classList.add('hidden');
 };
 
 const showCommentsCounter = () => {
-  commentCounter.classList.remove('hidden');
+  commentCounterElement.classList.remove('hidden');
 };
 
 const clearCommentsList = () => {
@@ -49,7 +49,7 @@ const clearCommentsList = () => {
 };
 
 const onCommentsLoadButtonClicked = () => {
-  const commentShowed = Number(showedCommentsCounter.textContent);
+  const commentShowed = Number(showedCommentsCounterElement.textContent);
   const commentsCollection = document.querySelectorAll('.social__comment');
   const commentCount = (commentsCollection.length < commentShowed + COUNT_OF_LOADED_COMMENTS) ? commentsCollection.length : commentShowed + COUNT_OF_LOADED_COMMENTS;
 
@@ -71,7 +71,7 @@ const renderComments = (commentsArray) => {
     }
     commentsListFragment.appendChild(commentNodeElement);
   });
-  commentsList.appendChild(commentsListFragment);
+  commentsListElement.appendChild(commentsListFragment);
 
   if (commentsArray.length <= COUNT_OF_LOADED_COMMENTS) {
     hideCommentsCounter();
@@ -82,7 +82,7 @@ const renderComments = (commentsArray) => {
     setCounterNumber(COUNT_OF_LOADED_COMMENTS);
   }
 
-  commentsLoadButton.addEventListener('click', onCommentsLoadButtonClicked);
+  commentsLoadButtonElement.addEventListener('click', onCommentsLoadButtonClicked);
 };
 
 export {

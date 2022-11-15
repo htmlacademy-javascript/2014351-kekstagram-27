@@ -1,5 +1,5 @@
-import {createRandomIdFromRangeGenerator, getRandomInteger} from './utils.js';
-import {AVATAR_COUNT} from './config.js';
+import {createRandomIdFromRangeGenerator, getRandomInteger} from '../utils.js';
+import {AVATAR_COUNT} from '../config.js';
 
 const MESSAGES = [
   'Всё отлично!',

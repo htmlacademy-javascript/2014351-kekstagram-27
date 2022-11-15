@@ -1,6 +1,6 @@
-import {createIdGenerator, getRandomInteger} from './utils.js';
-import {generateCommentsArray} from './comment.js';
-import {COMMENTS_RANGE_FROM, COMMENTS_RANGE_TO, LIKES_RANGE_FROM, LIKES_RANGE_TO} from './config.js';
+import {createIdGenerator, getRandomInteger} from '../utils.js';
+import {generateCommentsArray} from './comment-generator.js';
+import {COMMENTS_RANGE_FROM, COMMENTS_RANGE_TO, LIKES_RANGE_FROM, LIKES_RANGE_TO} from '../config.js';
 
 const ADJECTIVES = [
   'beautiful',

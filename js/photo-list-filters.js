@@ -1,5 +1,5 @@
 import {createRandomIntegersArrayFromRange, debounce} from './utils.js';
-import {removePhotosList, photoList} from './photo-list.js';
+import {removePhotosList, renderPhotoList} from './render-photo-list.js';
 
 const photoListFilters = document.querySelector('.img-filters');
 const photoFiltersForm = photoListFilters.querySelector('.img-filters__form');
@@ -26,7 +26,7 @@ const applyFilter = (id, photosArray) => {
       newPhotoArray = photosArray;
   }
   removePhotosList();
-  photoList(newPhotoArray);
+  renderPhotoList(newPhotoArray);
 };
 
 const applyTimeOut = debounce(applyFilter);

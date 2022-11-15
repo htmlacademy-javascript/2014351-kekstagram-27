@@ -1,17 +1,17 @@
 import {EFFECTS_CONFIG} from './config.js';
 
-const uploadForm = document.querySelector('#upload-select-image');
-const effectsSlider = uploadForm.querySelector('.effect-level');
-const sliderInput = effectsSlider.querySelector('.effect-level__value');
-const effectsList = uploadForm.querySelector('.effects__list');
-const imgPreview = uploadForm.querySelector('.img-upload__preview').children[0];
+const uploadFormElement = document.querySelector('#upload-select-image');
+const effectsSliderElement = uploadFormElement.querySelector('.effect-level');
+const sliderInputElement = effectsSliderElement.querySelector('.effect-level__value');
+const effectsListElement = uploadFormElement.querySelector('.effects__list');
+const imgPreviewElement = uploadFormElement.querySelector('.img-upload__preview').children[0];
 
 const showEffectsSlider = () => {
-  effectsSlider.classList.remove('hidden');
+  effectsSliderElement.classList.remove('hidden');
 };
 
 const hideEffectsSlider = () => {
-  effectsSlider.classList.add('hidden');
+  effectsSliderElement.classList.add('hidden');
 };
 
 const onEffectChange = (evt) => {
@@ -19,40 +19,40 @@ const onEffectChange = (evt) => {
 
   // EFFECTS_CONFIG.hasOwnProperty(effect)
   if (Object.prototype.hasOwnProperty.call(EFFECTS_CONFIG, effect)) {
-    effectsSlider.noUiSlider.updateOptions(EFFECTS_CONFIG[effect].slider);
+    effectsSliderElement.noUiSlider.updateOptions(EFFECTS_CONFIG[effect].slider);
     showEffectsSlider();
   } else {
-    effectsSlider.noUiSlider.updateOptions(EFFECTS_CONFIG.default.slider);
+    effectsSliderElement.noUiSlider.updateOptions(EFFECTS_CONFIG.default.slider);
     hideEffectsSlider();
   }
   // changeScale(MAX_SCALE);
 };
 
 const initSlider = () => {
-  noUiSlider.create(effectsSlider, EFFECTS_CONFIG.default.slider);
+  noUiSlider.create(effectsSliderElement, EFFECTS_CONFIG.default.slider);
 
-  effectsSlider.noUiSlider.on('update', () => {
-    const value = effectsSlider.noUiSlider.get();
-    const selectedEffect = effectsList.querySelector('[name="effect"]:checked').value;
+  effectsSliderElement.noUiSlider.on('update', () => {
+    const value = effectsSliderElement.noUiSlider.get();
+    const selectedEffect = effectsListElement.querySelector('[name="effect"]:checked').value;
 
     // EFFECTS_CONFIG.hasOwnProperty(selectedEffect)
     if (Object.prototype.hasOwnProperty.call(EFFECTS_CONFIG, selectedEffect)) {
       const {filter, unit} = EFFECTS_CONFIG[selectedEffect];
 
-      imgPreview.style.filter = `${filter}(${value}${unit})`;
-      sliderInput.value = value;
+      imgPreviewElement.style.filter = `${filter}(${value}${unit})`;
+      sliderInputElement.value = value;
     } else {
-      imgPreview.style.filter = '';
-      sliderInput.value = '';
+      imgPreviewElement.style.filter = '';
+      sliderInputElement.value = '';
     }
   });
 
-  effectsList.addEventListener('change', onEffectChange);
+  effectsListElement.addEventListener('change', onEffectChange);
 };
 
 const destroySlider = () => {
-  effectsSlider.noUiSlider.destroy();
-  effectsList.removeEventListener('change', onEffectChange);
+  effectsSliderElement.noUiSlider.destroy();
+  effectsListElement.removeEventListener('change', onEffectChange);
 };
 
 export {
