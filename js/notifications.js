@@ -1,31 +1,31 @@
 import {NOTIFICATION_TIME} from './config.js';
 
 const createModal = (type) => {
-  const modal = document.querySelector(`#${type}`)
+  const modalElement = document.querySelector(`#${type}`)
     .content
     .querySelector(`.${type}`)
     .cloneNode(true);
 
-  const modalCloseButton = modal.querySelector(`.${type}__button`);
+  const modalCloseButtonElement = modalElement.querySelector(`.${type}__button`);
 
   const onEscapeDown = (evt) => {
     if (evt.key === 'Escape') {
-      modal.remove();
+      modalElement.remove();
       removeEventListeners();
     }
   };
 
   const onMouseClick = (evt) => {
     if (evt.target.tagName === 'SECTION' && evt.target.classList.contains(type)) {
-      modal.remove();
+      modalElement.remove();
       removeEventListeners();
     }
   };
 
   document.addEventListener('keydown', onEscapeDown);
   document.addEventListener('click', onMouseClick);
-  modalCloseButton.addEventListener('click', () => {
-    modal.remove();
+  modalCloseButtonElement.addEventListener('click', () => {
+    modalElement.remove();
     removeEventListeners();
   });
 
@@ -35,7 +35,7 @@ const createModal = (type) => {
     document.removeEventListener('click', onMouseClick);
   }
 
-  return modal;
+  return modalElement;
 };
 
 const showSuccessModal = () => {
@@ -49,16 +49,15 @@ const showErrorModal = () => {
 };
 
 const showErrorNotify = (message) => {
-  const alertContainer = document.createElement('div');
-  alertContainer.classList.add('alert');
+  const alertElement = document.createElement('div');
+  alertElement.classList.add('alert');
 
+  alertElement.textContent = message;
 
-  alertContainer.textContent = message;
-
-  document.body.append(alertContainer);
+  document.body.append(alertElement);
 
   setTimeout(() => {
-    alertContainer.remove();
+    alertElement.remove();
   }, NOTIFICATION_TIME);
 };
 

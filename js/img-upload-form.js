@@ -1,60 +1,60 @@
 import {FILE_TYPES, MAX_SCALE, MIN_SCALE, SCALE_STEP} from './config.js';
 import {destroySlider, initSlider} from './effects-slider.js';
 import {pristine} from './form-validation.js';
-import {postNewPhoto} from './photos-api.js';
+import {postNewPhoto} from './api/photos-api.js';
 import {showErrorModal, showSuccessModal} from './notifications.js';
 
-const uploadForm = document.querySelector('#upload-select-image');
-const uploadInput = uploadForm.querySelector('#upload-file');
-const submitButton = uploadForm.querySelector('.img-upload__submit');
-const hashtagInput = uploadForm.querySelector('.text__hashtags');
-const commentInput = uploadForm.querySelector('.text__description');
-const uploadFormButtonClose = uploadForm.querySelector('.img-upload__cancel');
-const [scaleButtonSmaller, scaleControl, scaleButtonBigger] = uploadForm.querySelector('.img-upload__scale').children;
-const imgPreview = uploadForm.querySelector('.img-upload__preview').children[0];
-const effectsList = uploadForm.querySelector('.effects__list');
+const uploadFormElement = document.querySelector('#upload-select-image');
+const uploadInputElement = uploadFormElement.querySelector('#upload-file');
+const submitButtonElement = uploadFormElement.querySelector('.img-upload__submit');
+const hashtagInputElement = uploadFormElement.querySelector('.text__hashtags');
+const commentInputElement = uploadFormElement.querySelector('.text__description');
+const uploadFormButtonCloseElement = uploadFormElement.querySelector('.img-upload__cancel');
+const [scaleButtonSmallerElement, scaleControlElement, scaleButtonBiggerElement] = uploadFormElement.querySelector('.img-upload__scale').children;
+const imgPreviewElement = uploadFormElement.querySelector('.img-upload__preview').children[0];
+const effectsListElement = uploadFormElement.querySelector('.effects__list');
 
 const toggleUploadForm = () => {
-  uploadForm.querySelector('.img-upload__overlay').classList.toggle('hidden');
+  uploadFormElement.querySelector('.img-upload__overlay').classList.toggle('hidden');
   document.body.classList.toggle('modal-open');
 };
 
 const disableUploadButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Публикуется...';
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Публикуется...';
 };
 
 const enableUploadButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
 };
 
 const changeScale = (value) => {
-  let scale = Number(scaleControl.value.replace('%', '')) + value;
+  let scale = Number(scaleControlElement.value.replace('%', '')) + value;
   scale = (scale < MIN_SCALE) ? MIN_SCALE : scale;
   scale = (scale > MAX_SCALE) ? MAX_SCALE : scale;
-  scaleControl.value = `${scale}%`;
-  imgPreview.style.transform = `scale(${scale / 100})`;
+  scaleControlElement.value = `${scale}%`;
+  imgPreviewElement.style.transform = `scale(${scale / 100})`;
 };
 
 const clearUploadForm = () => {
-  uploadInput.value = '';
-  uploadForm.querySelector('#effect-none').click();
-  hashtagInput.value = '';
-  commentInput.value = '';
+  uploadInputElement.value = '';
+  uploadFormElement.querySelector('#effect-none').click();
+  hashtagInputElement.value = '';
+  commentInputElement.value = '';
   changeScale(MAX_SCALE);
 };
 
 const removeEffects = () => {
-  effectsList
+  effectsListElement
     .querySelectorAll('.effects__radio')
     .forEach((effect) => {
-      imgPreview.classList.remove(`effects__preview--${effect.value}`);
+      imgPreviewElement.classList.remove(`effects__preview--${effect.value}`);
     });
 };
 
 const onEscapeDown = (evt) => {
-  if (evt.key === 'Escape' && hashtagInput !== document.activeElement && commentInput !== document.activeElement) {
+  if (evt.key === 'Escape' && hashtagInputElement !== document.activeElement && commentInputElement !== document.activeElement) {
     toggleUploadForm();
     clearUploadForm();
     destroySlider();
@@ -63,47 +63,47 @@ const onEscapeDown = (evt) => {
 };
 
 const renderPreview = () => {
-  const file = uploadInput.files[0];
+  const file = uploadInputElement.files[0];
   const fileName = file.name.toLowerCase();
 
   const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
 
   if (matches) {
-    imgPreview.src = URL.createObjectURL(file);
+    imgPreviewElement.src = URL.createObjectURL(file);
   }
 };
 
 const initUploadForm = () => {
-  effectsList.addEventListener('click', (evt) => {
+  effectsListElement.addEventListener('click', (evt) => {
     if (evt.target.nodeName === 'INPUT') {
       removeEffects();
-      imgPreview.classList.add(`effects__preview--${evt.target.value}`);
+      imgPreviewElement.classList.add(`effects__preview--${evt.target.value}`);
     }
   });
 
-  uploadFormButtonClose.addEventListener('click', () => {
+  uploadFormButtonCloseElement.addEventListener('click', () => {
     toggleUploadForm();
     clearUploadForm();
     document.removeEventListener('keydown', onEscapeDown);
     destroySlider();
   });
 
-  uploadInput.addEventListener('change', () => {
+  uploadInputElement.addEventListener('change', () => {
     renderPreview();
     toggleUploadForm();
     initSlider();
     document.addEventListener('keydown', onEscapeDown);
   });
 
-  scaleButtonBigger.addEventListener('click', () => {
+  scaleButtonBiggerElement.addEventListener('click', () => {
     changeScale(SCALE_STEP);
   });
 
-  scaleButtonSmaller.addEventListener('click', () => {
+  scaleButtonSmallerElement.addEventListener('click', () => {
     changeScale(-SCALE_STEP);
   });
 
-  uploadForm.addEventListener('submit', async (evt) => {
+  uploadFormElement.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (!isValid) {
